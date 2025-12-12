@@ -1,33 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/expense.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/expense.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Expense Tracker</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-</head>
+  <body>
+    <div id="app">
+      <header class="app-header">
+        <h1>Expense Tracker</h1>
+        <p>Manage your finances with style</p>
+      </header>
 
-<body>
-  <div id="app">
-    <header class="app-header">
-      <h1>Expense Tracker</h1>
-      <p>Manage your finances with style</p>
-    </header>
+      <main class="main-content">
+        <section id="dashboard-container" class="dashboard-section"></section>
 
-    <main class="main-content">
-      <section id="dashboard-container" class="dashboard-section"></section>
-
-      <div class="content-grid">
-        <section id="form-container" class="form-section"></section>
-        <section id="list-container" class="list-section"></section>
-      </div>
-    </main>
-  </div>
-  <script type="module" src="/src/main.js"></script>
-</body>
-
+        <div class="content-grid">
+          <section id="form-container" class="form-section"></section>
+          <section id="list-container" class="list-section"></section>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
 </html>
