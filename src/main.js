@@ -6,7 +6,7 @@ import { renderAuth } from './components/Auth.js';
 import { getCurrentUser, logoutUser } from './utils/storage.js';
 
 const init = () => {
-  const appContainer = document.querySelector('#app');
+  const appContainer = document.querySelector('#outlet');
 
   const renderApp = () => {
     const user = getCurrentUser();
@@ -20,7 +20,10 @@ const init = () => {
     // Render Main App Structure
     appContainer.innerHTML = `
       <header class="app-header">
-        <div style="display: flex; justify-content: flex-end; padding: 1rem;">
+        <div style="display: flex; justify-content: flex-end; gap:0.5rem; align-items:center; padding: 1rem;">
+          <select id="month-select" class="form-select" style="background: rgba(255,255,255,0.04); color: var(--text-secondary); padding: 0.4rem 0.6rem; border-radius: 6px;">
+            <option value="all">All</option>
+          </select>
           <button id="logout-btn" class="btn" style="background: rgba(255,255,255,0.1); color: var(--text-secondary); font-size: 0.9rem; padding: 0.5rem 1rem;">
             Logout (${user})
           </button>
@@ -43,15 +46,44 @@ const init = () => {
     const listContainer = document.querySelector('#list-container');
     const dashboardContainer = document.querySelector('#dashboard-container');
     const logoutBtn = document.querySelector('#logout-btn');
+    const monthSelect = document.querySelector('#month-select');
 
     logoutBtn.addEventListener('click', () => {
       logoutUser();
       renderApp();
     });
 
+    // Populate month select (last 12 months + All)
+    const getMonthOptions = () => {
+      const opts = [{ value: 'all', label: 'All' }];
+      const now = new Date();
+      for (let i = 0; i < 12; i++) {
+        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+        const val = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+        const label = d.toLocaleString('default', {
+          month: 'short',
+          year: 'numeric',
+        });
+        opts.push({ value: val, label });
+      }
+      return opts;
+    };
+
+    if (monthSelect) {
+      const opts = getMonthOptions();
+      monthSelect.innerHTML = opts
+        .map((o) => `<option value="${o.value}">${o.label}</option>`)
+        .join('');
+      monthSelect.value = 'all';
+      monthSelect.addEventListener('change', () => {
+        updateApp();
+      });
+    }
+
     const updateApp = () => {
-      renderExpenseList(listContainer, updateApp);
-      renderDashboard(dashboardContainer);
+      const selectedMonth = monthSelect ? monthSelect.value : 'all';
+      renderExpenseList(listContainer, updateApp, selectedMonth);
+      renderDashboard(dashboardContainer, selectedMonth);
     };
 
     renderExpenseForm(formContainer, updateApp);
